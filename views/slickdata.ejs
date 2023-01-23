@@ -1,0 +1,30 @@
+<% roomy.forEach(function(data){ %>
+var slickdata = '<div class="thumbnail">'+
+      '<div class="col-lg-5 col-xs-5 c1">'+
+      '  <h1><%= data.name %></h1>'+
+      '  <h5><%= data.amount %></h5>'+
+      '</div>'+
+      '<div class="col-lg-7 col-xs-7 c2">'+
+      '  <button class="btn btn-default"><%= data.number %></button>'+
+      '  <button class="btn btn-default"><i class="fa fa-map-marker"></i></button>'+
+      '  <button class="btn btn-default"><i class="fa fa-envelope"></i></button>'+
+      '</div>'+
+      '<hr>'+
+      '<div class="col-lg-12 c3">'+
+      '  <h3><%= data.type %></h3>'+
+      '  <h5><%= data.location %></h5>'+
+      '</div>'+
+      '<div class="col-lg-12 c4">'+
+      '  <h5><%= data.pref %></h5>'+
+      '</div>'+
+      '<div class="col-lg-4 col-xs-4 c5" style="opacity:0.2;"><i class="fa fa-plus"></i></div>'+
+      '<div class="col-lg-8 col-xs-8 c6">'+
+      '  <button class="btn btn-default b1">Interested</button>'+
+      '  <button class="btn btn-default b2">Add to cart</button><br>'+
+      '  <button class="btn btn-default b3">Sujjest to a friend</button>'+
+      '</div>'+
+      '<div class="col-lg-12 c7">'+
+      '  <a href="#">For Complaints and Other issues click here</a>'+
+      '</div>'+
+      '</div>'
+<% }) %>

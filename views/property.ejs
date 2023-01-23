@@ -1,0 +1,261 @@
+<%- include ('partials/header'); -%>
+
+
+<nav class="navbar fixed-top navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand inverted" href="/">Roomy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-ellipsis-v" ></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/property">Rental</a>
+            <a class="dropdown-item" href="/user">Searching</a>
+            <a class="dropdown-item" href="/user">Broker</a>
+          </div>
+        </li>
+        <% if(!currentUser){ %>
+          <li class="nav-item">
+            <a class="nav-link" href="/user">Login <span class="sr-only">(current)</span></a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="#" style="color:rgb(100,150,255);"><strong><%=currentUser.username%></strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log out</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="property pane1 inverted" style="padding-top:10vh;">
+<div class="container">
+
+<div class="container">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= success %>
+        </div>
+    <% } %>
+</div>
+
+  <div class="row">
+    <div class="instyle card shadow border-0">
+      <form action="/roomy" method="POST" enctype="multipart/form-data">
+        <h1>Register your property</h1><br>
+        <div class="form-group">
+          <input class="form-control" type="text" name="data[name]" placeholder="name" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="data[number]" placeholder="number" pattern=".{5,10}" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="data[location]" placeholder="location" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="data[amount]" placeholder="Amount" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="data[type]" placeholder="Type" required>
+        </div>
+        <!-- <div class="input-group mb-3">
+          <div class="custom-file">
+            <input type="file" name="image" accept="image/*" class="custom-file-input" id="image" aria-describedby="inputGroupFileAddon01" required>
+            <div class="invalid-feedback">
+              Please upload an image of your campground.
+            </div>
+            <label class="custom-file-label" for="inputGroupFileAddon01">Image*</label>
+          </div>
+        </div> -->
+
+        <div class="form-group myimgbtn">
+          <label for="image" style="font-weight: 600;">Insert image for your room!</label>
+          <input type="file" id="image" name="image" accept="image/*">
+        </div>
+
+        <label for="">Booking Window*</label>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" name="data[start]" placeholder="Starting Month" required>
+            <div class="invalid-feedback">
+              Please provide a booking window.
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" name="data[end]" placeholder="Ending Month" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+<div class="dropright">
+  <button class="btn btn-lg btn-primary btn-block dropdown-toggle" type="button" data-toggle="dropdown">Preferences</button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item">kind of</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select9]" value="Paying Guest(PG), ">
+            <label for="java">Paying Guest(PG)</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select9]" value="Hostel, ">
+            <label for="java">Hostel</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select10]" value="Shared, ">
+            <label for="java">Shared</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select11]" value="With Mess/Tiffin, ">
+            <label for="java">With Mess/Tiffin</label>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="dropdown-item">Dependency</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select1]" value="Dependent, ">
+            <label for="java">Dependent</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select1]" value="Independent, ">
+            <label for="java">Independent</label>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="dropdown-item">Flat</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select2]" value="1 BHK, ">
+            <label for="java">1 BHK</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select2]" value="2 BHK, ">
+            <label for="java">2 BHK</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select2]" value="3 BHK, ">
+            <label for="java">3 BHK</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select2]" value="4 BHK, ">
+            <label for="java">4 BHK</label>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="dropdown-item">Including</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select3]" value="Electricity Bill, ">
+            <label for="java">Electricity Bill</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select6]" value="Water Bill, ">
+            <label for="java">Water Bill</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select7]" value="Cleaning Charge, ">
+            <label for="java">Cleaning Charge</label>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="dropdown-item">Range</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select4]" value="1000-2000, ">
+            <label for="java">1000-2000</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select4]" value="2000-5000, ">
+            <label for="java">2000-5000</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select4]" value=" > 5000, ">
+            <label for="java"> > 5000 </label>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="dropdown-item">With</a>
+      <ul class="submenu dropdown-menu">
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select8]" value="Furniture, ">
+            <label for="java">Furniture</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select8]" value="Windows, ">
+            <label for="java">Windows</label>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item col-12">
+            <input type="radio" id="java" name="data[select5]" value="Ventilation, ">
+            <label for="java">Ventilation </label>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="Submit">Submit!</button>
+        </div>
+      </form>
+      <strong><a href="/">Go Back!</a></strong>
+    </div>
+  </div>
+</div>
+</div>
+
+<%- include ('partials/footer'); -%>

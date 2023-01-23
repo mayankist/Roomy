@@ -1,0 +1,137 @@
+<%- include ('partials/header'); -%>
+
+<nav class="navbar fixed-top navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand inverted" href="/" style="padding:11px 10px 10px 10px;">Roomy</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/property">Rental</a>
+            <a class="dropdown-item" href="/user">Searching</a>
+            <a class="dropdown-item" href="/user">Broker</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <% if(!currentUser){ %>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login1" role="tab" aria-controls="login" aria-selected="true">Log in</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup1" role="tab" aria-controls="signup" aria-selected="false"> Sign up</a>
+        </li>
+      </ul>
+    <% } else { %>
+      <li class="nav-item">
+        <a href="#" style="color:rgb(100,150,255);"><strong><%= currentUser.username %></strong></a>
+      </li>
+      <li class="nav-item">
+        <a class="dropdown-item" href="/logout">Log out</a>
+      </li>
+    <% } %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-ellipsis-v" ></span>
+    </button>
+  </div>
+</nav>
+
+
+<div class="tab-content" id="myTabContent">
+  	<div class="tab-pane pane1 fade show active inverted" id="login1" role="tabpanel" aria-labelledby="login-tab" style="padding-top:20vh;">
+		<div class="container">
+
+<div class="container inverted">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= success %>
+        </div>
+    <% } %>
+</div>
+
+			<div class="row">
+				<div class="instyle card shadow border-0" style="margin-bottom: 85px;">
+					<form action="login" method="POST">
+						<h1>Login</h1><br>
+						<div class="form-group">
+							<input class="form-control" type="text" name="username" placeholder="username" required>
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="password" name="password" placeholder="password" pattern=".{5,10}" required title="must be of 5 to 10 characters">
+						</div>
+						<div class="form-group">
+							<button class="btn btn-lg btn-primary btn-block">Submit!</button>
+						</div>
+					</form>
+					<strong>
+            <a href="/">Go Back!</a>
+            <a data-toggle="tab" href="#signup1" style="float: right;">New User? Sign Up Here!</a>
+          </strong>	
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div class="tab-pane pane1 fade inverted" id="signup1" role="tabpanel" aria-labelledby="signup-tab" style="padding-top:10vh;">
+        <div class="container">
+          	<div class="row">
+              	<div class="instyle card shadow border-0">
+					<form action="register" method="POST">
+						<h1>Sign up</h1><br>
+            <div class="form-group">
+              <input class="form-control" type="text" name="fullName" placeholder="fullname" required>
+            </div>
+						<div class="form-group">
+							<input class="form-control" type="text" name="username" placeholder="username" required>
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="number" name="number" placeholder="number" pattern=".{5,10}" required>
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="email" name="email" placeholder="Email" required>
+						</div>
+            <!-- <div class="form-group">
+              <div class="custom-file">
+                <input type="file" name="avatar" accept="image/*" class="custom-file-input" id="image" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Avatar</label>
+              </div>
+            </div> -->
+            <div class="form-group myimgbtn">
+              <label for="image" style="font-weight: 600;">Insert image for new user!</label>
+              <input type="file" id="image" name="image" accept="image/*">
+            </div>
+						<div class="form-group">
+							<input class="form-control" type="password" name="password" id="ownerpassword"placeholder="password" pattern=".{5,10}" required title="must be of 5 to 10 characters">
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="password" name="confirm_password" id="confirm_owner_password" placeholder="Confirm Password" required>
+							<span id='ownermessage'></span>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-lg btn-primary btn-block">Submit!</button>
+						</div>
+					</form>
+					<strong>
+            <a href="/">Go Back!</a>
+            <a data-toggle="tab" href="#login1" style="float: right;">Already An User? Login Here!</a>
+          </strong>	
+				</div>
+          	</div>
+        </div>
+    </div>
+</div>
+
+<%- include ('partials/footer'); -%>

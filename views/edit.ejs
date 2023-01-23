@@ -1,0 +1,119 @@
+<%- include ('./partials/header'); -%>
+
+
+<nav class="navbar fixed-top navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand inverted" href="/">Roomy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-ellipsis-v" ></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/property">Rental</a>
+            <a class="dropdown-item" href="/user">Searching</a>
+            <a class="dropdown-item" href="/user">Broker</a>
+          </div>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" id="darkmode" onclick="changeMode()" style="font-size: 1.3em; padding:0px 10px;margin-top: 8px;"><i class="fa fa-adjust"></i></a>
+        </li> -->
+        <% if(!currentUser){ %>
+          <li class="nav-item">
+            <a class="nav-link" href="/user">Login <span class="sr-only">(current)</span></a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/<%= currentUser._id %>" style="color:rgb(100,150,255);">
+              <strong><i class="fas fa-user"></i> <%=currentUser.username%></strong>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log out</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="property pane1 inverted" style="padding-top:10vh;">
+<div class="container">
+
+<div class="container">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= success %>
+        </div>
+    <% } %>
+</div>
+
+  <div class="row">
+    <div class="instyle card shadow border-0">
+      <form action="/roomy/<%= roomy._id %>?_method=PUT" method="POST">
+        <center><h2><%= roomy.name %>, edit here!</center></h2><br>
+        <div class="form-group">
+          <input class="form-control" type="text" name="roomy[name]" value="<%= roomy.name %>" placeholder="name">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="number" name="roomy[number]" value="<%= roomy.number %>" pattern=".{5,10}" placeholder="number">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="roomy[location]" value="<%= roomy.location %>" placeholder="location">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="number" name="roomy[amount]" value="<%= roomy.amount %>" placeholder="amount">
+        </div>
+        <!-- <div class="form-group">
+          <input class="form-control" type="text" name="roomy[image]" value="<%= roomy.image %>" placeholder="image">
+        </div> -->
+
+        <div class="input-group mb-3">
+          <div class="custom-file">
+            <input type="file" name="image" accept="image/*" class="custom-file-input" id="image" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Image*</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="">Booking Window (Start)*</label>
+            <input type="text" class="form-control" name="roomy[start]" value="<%= roomy.booking.start %>" required>
+            <div class="invalid-feedback">
+              Please provide a booking window.
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Booking Window (End)*</label>
+            <input type="text" class="form-control" name="roomy[end]" value="<%= roomy.booking.end %>" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input class="form-control" type="text" name="roomy[type]" value="<%= roomy.type %>" placeholder="type">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+        </div>
+      </form>
+      <strong><a href="/roomy/<%= roomy._id %>">Go Back!</a></strong>
+    </div>
+  </div>
+</div>
+</div>
+
+<%- include ('./partials/footer'); -%>

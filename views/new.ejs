@@ -1,0 +1,197 @@
+<%- include ('partials/header'); -%>
+
+<nav class="navbar fixed-top navbar-expand-lg" style="box-shadow: none;">
+  <div class="container">
+    <a class="navbar-brand inverted" href="/">Roomy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-ellipsis-v" ></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+        </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/property">Rental</a>
+            <a class="dropdown-item" href="/user">Searching</a>
+            <a class="dropdown-item" href="/user">Broker</a>
+          </div>
+        </li>
+        <% if(!currentUser){ %>
+          <li class="nav-item">
+            <a class="nav-link" href="/user">Login <span class="sr-only">(current)</span></a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/<%= currentUser._id %>" style="color:rgb(100,150,255);">
+              <strong><i class="fas fa-user"></i> <%=currentUser.username%></strong>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log out</a>
+          </li>
+        <% } %>
+        <li class="nav-item">
+          <a class="nav-link" id="darkmode" onclick="changeMode()" style="font-size: 1.3em; padding:0px 10px;margin-top: 8px;"><i class="fa fa-adjust"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="box4">
+
+<div class="container">
+    <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= error %>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close" style="outline:none;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <%= success %>
+        </div>
+    <% } %>
+</div>
+
+<div class="row">
+  <div class="col-md-6 content2">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3665.8789125782564!2d77.49986176474188!3d23.24749298483965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c41e4394f4f87%3A0xb3bba34206ce5dec!2sOriental%20Institute%20of%20Science%20%26%20Technology%20-%20Best%20Engineering%20College%20In%20Bhopal!5e0!3m2!1sen!2sin!4v1593244474096!5m2!1sen!2sin" frameborder="0" allowfullscreen="true" aria-hidden="false" tabindex="0" class="inverted">
+    </iframe>
+  </div>
+  <div class="col-md-6 content1">
+    <div class="myfloatbox">
+      <form action="/new" method="GET">
+        <input type="text" placeholder="  Search.." name="search" id="myInput">
+        <button class="btn btn1" type="submit" value="Search"><i class="fa fa-search"></i></button>
+        <a href="/property" style="text-decoration: none;float: left;margin-left: 10px;">
+          <button class="btn btn2" type="button">NEW</button>
+        </a>
+        <a class="btn btn2" id="myDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:0px;float: left;margin-left: 10px;">SORT</a>
+            <div class="dropdown-menu" aria-labelledby="myDropdown">
+              <form class="sortForm" action="/new" method="GET">
+                <input type="text" name="sortby" value="rateAvg" class="d-none">
+                <button type="submit" class="dropdown-item">Highest Rated</button>
+              </form>
+              <form class="sortForm" action="/new" method="GET">
+                <input type="text" name="sortby" value="rateCount" class="d-none">
+                <button type="submit" class="dropdown-item">Most Reviewed</button>
+              </form>
+              <form class="sortForm" action="/new" method="GET">
+                <input type="text" name="sortby" value="priceLow" class="d-none">
+                <button type="submit" class="dropdown-item">Lowest Price</button>
+              </form>
+              <form class="sortForm" action="/new" method="GET">
+                <input type="text" name="sortby" value="priceHigh" class="d-none">
+                <button type="submit" class="dropdown-item">Highest Price</button>
+              </form>
+              <form class="sortForm" action="/new" method="GET">
+                <input type="text" name="sortby" class="d-none">
+                <button type="submit" class="dropdown-item">Recent</button>
+              </form>
+            </div>
+        <!-- <a class="btn btn2" type="button">Sort<i class="fa fa-chevron-right fa-fw"></i></a> -->
+        <a class="btn btn3" type="button" href="#tothetop"><i class="fa fa-chevron-right fa-fw"></i></a>
+      </form><br>
+      <% if(noMatch != undefined){ %>
+      <h5><%= noMatch %></h5>
+      <% } %>
+    </div>
+    <div id="tothetop"></div>
+    <% roomy.forEach(function(data){ %>
+      <div class="thumbnail" id="mythumb">
+        <div class="row">
+          <div class="col-lg-8 col-8 incon1">
+            <h3><%= data.type %></h3>
+            <h6><i class="fa fa-map-marker fa-fw"></i><%= data.location %></h6>
+            <h6 class="h6none">
+              <%= data.select1 %> <%= data.select2 %> <%= data.select3 %> <%= data.select4 %>
+              <%= data.select5 %> <%= data.select6 %> <%= data.select7 %> <%= data.select8 %> 
+              <%= data.select9 %> <%= data.select10 %> <%= data.select11 %>
+            </h6>
+          </div>
+          <div class="col-lg-4 col-4 incon2">
+            <h3><i class="fa fa-rupee" style="font-size: 0.9em;"></i> <%= data.amount %></h3>
+            <button class="btn btn-default inverted" data-container="body" data-toggle="popover" data-placement="left" data-content="+91 - <%= data.number %>"><i class="fa fa-phone"></i></button>
+            <button class="btn btn-default inverted"><i class="fa fa-map-marker"></i></button>
+            <button class="btn btn-default inverted"><i class="fa fa-envelope"></i></button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-4 col-6 incon4">
+            <a href="/new/<%= data._id %>">
+              <img src="<%= data.image %>" class="inverted">
+            </a>
+          </div>
+          <div class="col-lg-8 col-6 incon5">
+            <div class="row" style="padding:2% 1%;">
+              <div class="col-md-6 myname" style="padding: 1%;">
+                <% if(!currentUser){ %>
+                  <a href="/new/<%= data._id %>" style="color:black;">
+                    <h5><i class="fa fa-user-circle fa-fw" style="font-size: 15px;transform: translate(0px, -2px);margin-right: 5px;"></i><%= data.name %></h5>
+                  </a>
+                <% } else { %>
+                  <a href="/users/<%= currentUser._id %>" style="color:black;">
+                    <h5><i class="fa fa-user-circle fa-fw" style="font-size: 15px;transform: translate(0px, -2px);margin-right: 5px;"></i><%= data.name %></h5>
+                  </a>
+                <% } %>
+              </div>
+              <div class="col-md-6 mydetail" style="">
+                <a href="/new/<%= data._id %>">
+                  <button class="btn btn-default inverted">
+                    <b>View Details</b> <i class="fa fa-chevron-right"></i>
+                  </button>
+                </a>
+              </div>
+              <!-- <div class="col-md-12" style="padding:5% 3% 3% 3%;"> 
+                <em class="mycomp"><a href="#" style="padding: 0px;font-size:1em;">For Complaints and Other issues click here</a></em>
+              </div> -->
+              <div class="col-md-12">
+                <hr>  
+              </div>
+              <div class="col-md-12" style="padding-top: 3%;">
+                <div class="row">
+                  <div class="col-md-10 col-10" style="font-size: 1em;text-align: left;">
+                    <h6 class="card-subtitle" style="margin: 0px;">
+                      <% if(data.comments.length === 0) { %>
+                        <span class="text-muted">No Reviews</span>
+                      <% } else { %>
+                        <% var stars = ['<i class="fa fa-star text-danger "></i>', '<i class="fa fa-star text-danger "></i>', '<i class="fa fa-star text-danger "></i>', '<i class="fa fa-star text-danger "></i>', '<i class="fa fa-star text-danger "></i>'] %>
+                        <% for(var i = 0; i < Math.round(data.rateAvg); i++) { %>
+                            <i class="fa fa-star text-danger"></i>
+                        <% } %>
+                        <% if (data.comments.length === 1) { %>
+                          <span class="text-muted"><%= data.comments.length %> <span id="myreview">Review</span></span>
+                        <% } else { %>
+                          <span class="text-muted"><%= data.comments.length %> <span id="myreview">Reviews</span></span>
+                        <% } %>
+                      <% } %>
+                    </h6>
+                  </div>
+                  <div class="col-md-2 col-2" style="text-align: right;">
+                    <div style="font-size: 16px;color:red;">
+                      <i class="far fa-heart" id="mylikebtn" type="button"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>  
+</div>
+
+<%- include ('partials/footer'); -%>
